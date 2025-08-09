@@ -1,0 +1,73 @@
+Covid-Data-Global :
+1. To find out the death percentage locally and globally
+
+ans : select (sum(deaths)/(sum(confirmed_indian))) as local_deaths ,(sum(deaths)/(sum(confirmed_indian)+sum(confirmed_foreign))) as global_dethas from covid_case_data;
+
+**********************************************************
+
+2. To find out the infected population percentage locally and globally
+
+ans : select sum(confirmed_indian) as indian_infected, (sum(confirmed_indian)+sum(confirmed_foreign)) as global_confiremd from covid_case_data;
+
+**********************************************************
+
+
+3. To find out the countries with the highest infection rates
+
+ans : select state ,sum(total_confirmed) from covid_case_data group by state order by sum(total_confirmed) desc limit 1;
+
+**********************************************************
+
+
+4. To find out the countries and continents with the highest death counts
+
+ans : select state, avg(deaths) from covid_case_data group by state order by avg(deaths) desc limit 1;
+
+
+**********************************************************
+
+5. Average number of deaths by day (Continents and Countries)
+
+ans : select state, avg(deaths) from covid_case_data group by state;
+
+**********************************************************
+
+6. Average of cases divided by the number of population of each country (TOP 10)
+
+ans: select state, avg(deaths) from covid_case_data group by state order by avg(deaths) desc limit 10;
+ 
+
+**********************************************************
+
+7. Considering the highest value of total cases, which countries have the highest rate of
+infection in relation to population
+
+ans : select state, sum(positive)*100.0/sum(total_samples)as highest_infection from covid_testing_data group by state order by sum(positive) desc limit 10;
+
+
+**********************************************************
+
+
+join ---------->
+
+
+1. To find out the population vs the number of people vaccinated
+
+ans :select sum(total_samples)-sum(total_individuals_vaccinated) as unvaccined from vaccine as t1 full join  covid_testing_data as t2 on t1.state=t2.state;  
+ 
+
+**********************************************************
+
+2. To find out the percentage of different vaccine taken by people in a country
+
+ans :  select (sum(covaxin_doses_administered)*100.0/sum(total_individuals_vaccinated)) as covaxin,(sum(covishield_doses_administered)*100.0/(sum(total_individuals_vaccinated))) as covishiled,(sum(sputnik_v_doses_administered)*100.0/(sum(total_individuals_vaccinated))) as sputnik from vaccine ;
+
+**********************************************************
+
+3. To find out percentage of people who took both the doses
+
+ans : select ((sum(second_dose_administered) ) *100.0/sum(total_individuals_vaccinated)) as fullVaccined from vaccine where state ='India';
+
+
+**********************************************************
+

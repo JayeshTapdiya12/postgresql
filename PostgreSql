@@ -1,0 +1,624 @@
+it is an object realtional database
+it support many datatyes like json
+it give many indexes like : partail indexes, b-tree indexes,hash indexes, expression indexes,
+
+full acid ,
+support json
+
+used by insta, netflix,uber,etc;
+
+semicolon is most neccesary
+
+it is case senstive
+
+database:
+an organesized collection of data, and a method tol access and manipulate the data
+
+rdbms: it means the data is stored in form of data and table and use sql for mangeing and accessing the data;
+
+postgreSql is good when : your application requires complex query and data integrity and sql when simpler and read heavy application
+
+some important querying in the starting:
+1>list all the database : \l
+
+2>change the database: \c db_name;
+
+3>quit : \q;
+
+4> list of all the tables : \dt;
+
+5> desc of table : \d tb_name;
+
+6>list of all the column : \d+ tb_name;
+
+7>list of all column: \!cls. ;
+
+---
+
+1> ddl- data defination language:
+it defines the structure of table;
+dml command: creat , insert,update,delete,,select
+
+Alter table:
+it has many tyoe :
+1>add column
+2>drop column
+3>rename column
+4>
+
+\*/\***\*\*\*\*\*\*\***\*\*\*\*\***\*\*\*\*\*\*\***\*\*\***\*\*\*\*\*\*\***\*\*\*\*\***\*\*\*\*\*\*\***
+commonds for the database use :
+
+1> list down the existing database :
+SELECT datname from pg_database;
+or
+\l shortcut for listing the data base name
+
+2> creating a database:
+CREATE DATABASE db_name;
+
+3> change the database:
+\c db_name; (in the ternimal only);
+
+4> deleting the database :
+drop database db_name;
+
+5> creating table in database:
+create table table_name(
+collumn name datatype,
+)
+eg: create table person(
+id int,
+name varchar(100),
+city varchar(100)
+)
+
+6> inserting the value in thr database:
+insert into table_name(cloumn 1, cloumn2)
+values('abc',123);
+eg: insert into person(id,name,city)
+values(101,'jayesh','indore');
+
+7> reading the data:
+select _ from table_name;
+eg:
+select _ from person;
+or select name,city form person;
+
+8>update the table:
+update table_name
+set column name =value,
+wher column =value;
+
+    eg:update person set city='banglore'
+        where name='jayesh';
+
+9> delete data from table :
+delete from tablename
+weher condi;
+
+    eg delete from person where name ='jayesh';
+
+10> datatype: it is an attribute that specfies the type of data in a cloumn of our database ;
+Category Types
+Text TEXT, VARCHAR(n), CHAR(n)
+Numbers INTEGER, BIGINT, SMALLINT, NUMERIC, DECIMAL, SERIAL
+Boolean BOOLEAN (TRUE, FALSE)
+Date/Time DATE, TIME, TIMESTAMP, TIMESTAMPTZ
+Other UUID, JSON, ARRAY, BYTEA
+
+Constraint Purpose
+NOT NULL Prevents null values
+UNIQUE Ensures all values in a column are unique
+PRIMARY KEY Combines UNIQUE + NOT NULL
+CHECK Custom validation
+DEFAULT Sets default value
+FOREIGN KEY Ensures relational integrity
+
+autoincrement ke liye we use th serial .
+
+---
+
+1>primary key - it is a cloumn in table which uniquely identifies the records of each row , it is onle one key in table, it can not be not null,
+2> unique key - it ensures the data in column are distinct ,it can be null values
+3>foreign key - it is a field in one table which refers to the primary key of another table;
+to intial the foreign key should should have one more table , and the same column should be refer to another tabke where it is primary key
+eg: PersonID int FOREIGN KEY REFERENCES Persons(PersonID)
+
+---
+
+clauses:
+1>where - it is used for the data filtering ,to extract only those data which fullfilling the condtion
+2>groupby - it groups the rows in the table which have same values into summary row
+eg-> select count(emp*id),dept from empolyee group by dept;
+3>limit - it is used to return the maxiumm number of record;
+4>distinct - it help to return only the distinct value from the table
+5>orderby - it help to sort the data in asc, or dsec order
+6>having by - it is introduce with the sql becuase the where clause canot be used e=with aggreate function:
+eg select count(dept) from the empolyee group by dept having count(dept)>5;
+7> like - it is used with where to search with a particular clause;
+%-> it represent the multiple/one/zero character;
+*-> it represent the zero/one character;
+
+relation oprators:
+1> =
+2> >
+3> <
+4> >=
+5><=
+6>!=
+
+logical oprator
+1>and
+2>or
+
+in -> for making the or opreation succfully ->
+select \* from emp where dept in ('HR','IT');
+not in -> it is opposite of in shows all the value which are not mention in the ()
+
+between-> finding the values which between thw two values->
+select \* from emp where salary between 40000 and 60000;
+
+Aggreagrat function :
+1>count() - count the numbers of row which matches the spefific condition
+2>sum() - the total sum of numeric column,
+3>avg() - the avg of the numernic column
+4>min() - the min value in the numeric column/table
+5>max() - the max value in the numeric column / table
+
+---
+
+JOINS->
+join -it means combining two or more table based on the releated cloumn between theem
+
+1>inner join - returing all the record having the matching value in both the table
+eg: select cloumn_name from tableT1 as t1
+inner join TableT2 as t2 on t1.columnName=t2.columnName;
+2>left join - returning all the left table value with the matching value in the right table;
+eg:select cloumn_name from tableT1 as t1
+left join TableT2 as t2 on t1.columnName=t2.columnName;
+3>right join - returning all the right table value with the matching value in the left table;
+eg:select cloumn_name from tableT1 as t1
+right join TableT2 as t2 on t1.columnName=t2.columnName;
+4>full join - returing all the values of the table even if not matching and removeing the duplicate value
+eg: select cloumn_name from tableT1 as t1
+full join TableT2 as t2 on t1.columnName=t2.columnName;
+5>cross join - it will returing all the record of the left table which is joined with the every record of the right table
+eg: select cloumn_name from tableT1 as t1
+cross join TableT2 ;
+
+---
+
+STRING FUNCTION:
+1>concat - conacting two or mor column together - eg select concat(fname,lname) from emp;
+2>concat_ws - concat with seprater - ('-',fname,lname); eg select concat_ws('-',fname,lname) from emp;
+3>substring - it break the string in the smaller part substr(word,start , end) eg : select substr('hello buddy',1,6);
+4>left - help to give the character from left :seelct left('heello world',4)
+5>right - help to give the character from right eg: seelct right('heello world',4)
+6>length - to find the length of the thing eg: select length(f_name),f_name from empolyee where length(f_name)>5;
+7>upper - to make the thing in upper case
+8>lower - to make the thing in lower case
+9>trim - it help to trim the whitespaces;
+10>Ltrim -
+11>rtrim -
+12>replace - to replace a particular word in the string ,replace(str,konse word ko change karna hai, kis word mei change karna hai); select \*,replace(dept,'IT','tech') from empolyee;
+13>position -
+14> string_agg -
+15>reverse;
+
+---
+
+in-> this operator help to specify the list for the where clause , means it help to get in the list it work like or operator
+
+any -> this operator help you to perform the a comparison between a single coulmn value with the range of value;
+returns a Boolean value as a result
+returns TRUE if ANY of the sub query values meet the condition
+
+all-> returns a Boolean value as a result
+returns TRUE if ALL of the sub query values meet the condition
+is used with SELECT, WHERE and HAVING statements
+
+---
+
+subquries: the subquery is a query which is nested inside the main query mainly in select ,from,where
+eg: select fname from empolyee where salary>(select avg(salary) from the empolyee);
+
+        1> it help for complex logic,
+        2> reusing the aggrration result
+
+Clause Example
+
+SELECT (SELECT MAX(salary) FROM employees)
+FROM FROM (SELECT ...) AS temp
+WHERE WHERE age > (SELECT AVG(age) ...)
+HAVING HAVING COUNT(\*) > (SELECT AVG(...))
+
+rules: 1> it must be in ();
+2>must return a correct value
+3>
+
+type of subquries:
+1> salar subquery: returns a single value (single row,single column);  
+ it is used with the logical operator : >,<,= etc;
+
+    2> row subquery: returns single row with multiple coulmn
+        eg: select fname from the employee where (dept,salary) in (select dept,salry from emp wher dept='IT');
+
+
+    3> column subquery: return single column with multiple row like a list., it use in, any, all commomly
+        syntax:SELECT column1 FROM table1 WHERE column2 IN ( SELECT columnX FROM table2 WHERE condition );
+
+
+
+3>correleated subquery: it is a subquery which take the refernce a cloumn from the outer query and it means the subquery is run once per row of outer query;
+
+4>derived table -> it is placed in thr form which is treated as a temmp table
+    syntax:
+        select outerColumn from (select  inner column from tablename where condition) as temp_table where Outer condition;
+
+        
+
+
+
+
+
+**************************************************************************************************
+
+functions :
+aggreate Functions
+Function	Description
+SUM()	Cumulative or partitioned sum.
+AVG()	Cumulative or partitioned average.
+MIN()	Minimum value in window.
+MAX()	Maximum value in window.
+COUNT()	Count of rows in the window.
+
+Window Functions
+it perform a calculation across a set of table rows that are somehow realted to the current row 
+
+syntac : <function name>() over(
+    partition by,
+    order by,
+    rows between
+)
+
+Function	Description
+ROW_NUMBER()	Assigns a unique sequential number to rows. No ties.
+RANK()	Assigns rank with gaps if there are ties.
+DENSE_RANK()	Like RANK but without gaps between ranks.
+NTILE(n)	Divides rows into n buckets (tiles) of roughly equal size.
+
+
+1> ROW_NUMBER()-> gives a unique number  to each row based on the order;
+                eg: select f_name, emp_id,salary ,ROW_NUMBER() over (partition by dept order by salary desc) as row_num from emp;
+
+
+2> RANK()-> assign the same rank to the ties and skip the tie rank;
+            eg: select f_name,emp_id,salary ,RANK() over(order by salary desc) as rank from emp;
+
+3>DENSE_RANK()-> doesnt skip the tie rank as the rank doesnt
+
+4>
+
+
+
+
+
+
+********************************************************
+
+Stored Procedure->
+    it is a precomplied set of sql statment stored in the database,
+    we can call it when we need the complex operation like data manipulation,codintion,logic,etc;
+
+
+why to use it: to reuse the logic , code clean, improve performance
+
+syntax for the stored Procedure->
+
+    creat  Procedure Procedure_name (args type, ....)
+    language plpsql
+    as$$
+    begin
+
+    end
+    $$;
+
+eg: 
+
+create Procedure add_student(in student_name text, in marks numeric)
+language plpsql
+as$$
+begin
+insert into  student(name,marks)values( dept_name,marks)
+
+end
+$$;
+
+
+create Procedure increment_salary(in dept_name text, in increment numeric)
+language plpgsql
+as$$
+begin
+update empolyee
+set salary=salary+increment
+where dept=dept_name
+
+end
+$$;
+
+call increment_salary('HR',50000);
+
+*************************************************************************************
+
+Function :
+        it is like the stored Procedure but it return the value, it commonly used to perform calculation,dataprocessing
+
+    syntax:
+
+    CREATE OR REPLACE FUNCTION function_name(parameter_list)
+RETURNS return_type
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  -- logic
+  RETURN value;
+END;
+$$;
+
+eg:
+    CREATE OR REPLACE FUNCTION add_nums(a INT, b INT)
+RETURNS INT
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN a + b;
+END;
+$$;
+
+
+SELECT add_nums(10, 20);  
+
+
+
+
+
+
+******************************************************************
+
+control flow and condition:
+1> if else statements :
+    IF condition THEN
+   -- do something
+ELSIF another_condition THEN
+   -- do something else
+ELSE
+   -- default action
+END IF;
+
+
+2> while loop :
+    WHILE condition LOOP
+   -- logic
+END LOOP;
+
+3> for loop :
+ FOR i IN 1..5 LOOP
+    RAISE NOTICE 'i = %', i;
+  END LOOP;
+
+  4>case :
+   CASE 
+    WHEN salary > 80000 THEN 'High'
+    WHEN salary BETWEEN 50000 AND 80000 THEN 'Medium'
+    ELSE 'Low'
+  END AS salary_grade
+
+  Element	Purpose
+WHEN	Condition to evaluate
+THEN	Value to return if matched
+ELSE	Value to return if no match
+END	Closes the CASE expression
+
+
+*************************************************************
+ RAISE NOTICE 'Pass'; - to give the print/output;
+
+******************************************************************
+
+views->,
+
+    this are the virtual table createdd in the postgreSql, it does not store data itself ,
+    it runs the underlying query each time you select from it.
+
+    syntax: ->
+        create or replace view view_name as select column1,... from table_name;
+
+        eg: create or replace view public_employee as select f_name,salary,dept from empolyee;
+
+        to use it :
+            SELECT * FROM public_employee;
+            SELECT f_name, dept FROM public_employee WHERE dept = 'IT';
+
+    complex view by using the aggreate function:
+        creat or replace view public_emp as select dept , avg(salary) from empolyee group by  dept
+
+        update the view->
+            CREATE OR REPLACE VIEW active_employee AS
+            SELECT id, f_name, dept, salary
+            FROM employee
+            WHERE active = true;
+                
+
+    Materialized Views:
+            when the query is heavy and need a fast read we use the Materialized
+
+                CREATE MATERIALIZED VIEW mv_dept_avg AS
+                SELECT dept, AVG(salary) AS avg_sal
+                FROM employee
+                GROUP BY dept;
+                
+                Refresh it when data changes:
+                REFRESH MATERIALIZED VIEW mv_dept_avg;
+                
+                You can index a materialized view:
+                CREATE INDEX idx_mv_dept ON mv_dept_avg(dept);
+
+                for droping the view :
+                    DROP VIEW public_employee;
+                    DROP MATERIALIZED VIEW mv_dept_avg;
+
+
+******************************************************************************
+
+cursor:
+    it is a database object which allow you to retrive query result row by row instead of getting all the row at once;
+
+        why cursor:
+            When working with large datasets (millions of rows) where fetching everything at once would use too much memory.
+
+            When you need to process each row individually in PL/pgSQL code (loops).
+
+            When the logic depends on the result of the previous row.
+
+
+             Steps to Use a Cursor :
+                Declare the cursor → Define what query the cursor will run.
+
+                Open the cursor → Execute the query but don’t fetch results yet.
+
+                Fetch from the cursor → Get rows one-by-one or in batches.
+
+                Close the cursor → Free up resources.
+
+
+eg:
+do $$
+Declare 
+    emp_cursor cursor for f_name,salary,dept from  employee
+    emp_record record
+
+BEGIN 
+    open emp_cursor
+    loop    
+        fetch emp_cursor into emp_record
+        exit when not found
+        rasie notice 'Name % salary% dept%',
+                    emp_record.f_name,emp_record.salary
+    end loop;
+    close emp_cursor
+END
+$$;
+
+
+
+parameter cursor:
+ Steps to Use a Cursor
+Declare the cursor → Define what query the cursor will run.
+
+Open the cursor → Execute the query but don’t fetch results yet.
+
+Fetch from the cursor → Get rows one-by-one or in batches.
+
+Close the cursor → Free up resources.
+
+
+DO $$
+DECLARE
+    emp_record RECORD;
+    emp_cursor CURSOR (p_dept TEXT) FOR
+        SELECT f_name, salary FROM employee WHERE dept = p_dept;
+BEGIN
+    OPEN emp_cursor('IT');
+    LOOP
+        FETCH emp_cursor INTO emp_record;
+        EXIT WHEN NOT FOUND;
+        RAISE NOTICE 'IT Employee: %, Salary: %',
+            emp_record.f_name, emp_record.salary;
+    END LOOP;
+    CLOSE emp_cursor;
+END;
+$$;
+
+
+
+
+******************************************************************
+
+Triggers:
+    it automatically executes a function when a certain event happens on a table or view.
+
+usefull when: audit log, data validation, automatic update,etc;
+
+trigeer event:  insert,deelte,update,truncate
+
+to define the trigger we need to define the function
+
+    eg:
+        create or replace function  audit_log()
+        language plpgsql
+        return trigger as $$
+        begin   
+            INSERT INTO salary_audit (emp_id, old_salary, new_salary, change_time)
+            VALUES (OLD.id, OLD.salary, NEW.salary, NOW());
+            RETURN NEW;
+        end
+        $$;
+
+
+    creating a trigeer
+
+    create trigeer salry_update
+    after update of salary on empolyee
+    for each row
+    execute function audit_log();
+
+
+
+
+    the full triger code:
+
+    -- Step 1: Create main table
+CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    dept TEXT,
+    salary NUMERIC
+);
+
+-- Step 2: Create audit table
+CREATE TABLE salary_audit (
+    emp_id INT,
+    old_salary NUMERIC,
+    new_salary NUMERIC,
+    change_time TIMESTAMP
+);
+
+-- Step 3: Create trigger function
+CREATE OR REPLACE FUNCTION log_salary_change()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO salary_audit (emp_id, old_salary, new_salary, change_time)
+    VALUES (OLD.id, OLD.salary, NEW.salary, NOW());
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Step 4: Create trigger
+CREATE TRIGGER salary_update_trigger
+AFTER UPDATE OF salary ON employees
+FOR EACH ROW
+EXECUTE FUNCTION log_salary_change();
+
+-- Step 5: Test data
+INSERT INTO employees (name, dept, salary) VALUES ('Alice', 'IT', 50000);
+
+-- Step 6: Run update to fire trigger
+UPDATE employees SET salary = 60000 WHERE name = 'Alice';
+
+-- Step 7: Check audit log
+SELECT * FROM salary_audit;
+
+
+
+
