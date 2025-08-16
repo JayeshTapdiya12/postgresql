@@ -40,11 +40,10 @@ it defines the structure of table;
 dml command: creat , insert,update,delete,,select
 
 Alter table:
-it has many tyoe :
+it has many type :
 1>add column
 2>drop column
 3>rename column
-4>
 
 \*/\***\*\*\*\*\*\*\***\*\*\*\*\***\*\*\*\*\*\*\***\*\*\***\*\*\*\*\*\*\***\*\*\*\*\***\*\*\*\*\*\*\***
 commonds for the database use :
@@ -80,9 +79,9 @@ eg: insert into person(id,name,city)
 values(101,'jayesh','indore');
 
 7> reading the data:
-select _ from table_name;
+select * from table_name;
 eg:
-select _ from person;
+select * from person;
 or select name,city form person;
 
 8>update the table:
@@ -139,6 +138,7 @@ eg select count(dept) from the empolyee group by dept having count(dept)>5;
 7> like - it is used with where to search with a particular clause;
 %-> it represent the multiple/one/zero character;
 *-> it represent the zero/one character;
+
 
 relation oprators:
 1> =
@@ -620,5 +620,181 @@ UPDATE employees SET salary = 60000 WHERE name = 'Alice';
 SELECT * FROM salary_audit;
 
 
+
+************************************************************************
+
+
+ROLES AND permissions :
+
+
+1> creating the role: 
+                    create role role_name;
+
+2> Reretriveing all the roles:
+
+        SELECT rolname FROM pg_roles; 
+
+3>role attributes:
+
+    create role name  with options;
+
+SUPERUSER | NOSUPERUSER: Determines if the role is a superuser.
+VALID UNTIL 'timestamp': Specifies the expiry date and time of a role’s password.
+CREATEDB | NOCREATEDB: Grants or revokes permissions for creating new databases.
+REPLICATION | NOREPLICATION: Indicates if a role is a replication role.
+CREATEROLE | NOCREATEROLE: Grants or revokes permissions for creating or modifying roles.
+PASSWORD 'password' | PASSWORD NULL: Changes the role’s password.
+INHERIT | NOINHERIT: Determines if the role inherits privileges from parent roles.
+BYPASSRLS | NOBYPASSRLS: Checks if a role can bypass row-level security (RLS) policies.
+LOGIN | NOLOGIN: Allows or disallows the role to log in.
+CONNECTION LIMIT limit: Sets the number of concurrent connections a role can make (-1 means unlimited connections).
+
+
+
+4> to alter the role :
+    first we have to login with role then modify the role
+eg:
+CREATE ROLE ravi LOGIN PASSWORD 'geeks12345';
+Now, modify the role 'Ravi' to be a superuser:
+ALTER ROLE ravi SUPERUSER;
+
+
+5> drop role :
+DROP ROLE [IF EXISTS] target_role;
+
+eg: DROP ROLE geeksforgeeks;
+
+
+
+
+
+
+
+******************************************************************************
+
+DCL: data control LANGUAGE : it is used   control access and permissions in a database.
+
+ddl and dml afeect the data and structure and dcl decide who can do what
+
+it has two part: 1 grant 
+                2 revoke
+
+1> GRANT :-  it give the permissions.
+    syntax: GRANT privilege_list
+            on table_name
+            to user_role;   
+
+eg :        GRANT SELECT ,INSERT 
+            on  employee
+            to john;
+
+
+Common privileges:
+
+SELECT — read data
+
+INSERT — add new rows
+
+UPDATE — change existing rows
+
+DELETE — remove rows
+
+ALL PRIVILEGES — give all rights
+
+USAGE — allow using schemas/sequences
+
+
+2> REVOKE-
+    REVOKE privilege_list
+    on object_name
+    to user_role
+
+eg: REVOKE INSERT
+    on empolyee
+    to john;
+
+
+
+****************************************************************
+
+
+WINDOW FUNCTION : it perform calculation across set of rows releated to  the current value without collapsing like group by.
+
+
+syntax :
+    function_name(expression)
+    OVER (
+        partition by column name
+        order by column name
+    )
+
+function name -aggreate or ranking function
+partition by - group the data without merging theem
+order by - defines the order 
+
+
+
+some commom window function :
+1> ROW_NUMBER()-> assign a unquie nuumber to each in the partition
+2> rank() - it rank the rows
+3>dense_rank()- rank rows without gaps
+4>NTILE(n) - Divides rows in n buckets
+5>sum/avg/count
+6> lag() - get a values from pervious value
+7>lead()-get the value from the next row
+
+
+
+
+*********************************************************************
+
+CTE:
+    temporary result set you create with WITH and use immediately in the following statement. It improves readability,
+
+    syntac:
+    WITH cte_name AS (
+  SELECT ...
+)
+SELECT ...
+FROM cte_name;
+
+
+
+
+
+
+with ranked as(
+select salesperson,amount,region,row_number()over(partition by region order by amount)as rn 
+from sale
+)select * from ranked where rn <=2;
+
+
+
+
+
+*********************************************************************
+
+
+
+ACID : 
+
+A- Atomicity: means transaction is done or not done,
+    If any part of the transaction fails, the entire transaction is rolled back.
+
+    it has two part commit and rollback
+
+
+C: consistency: A transaction must move the database from one valid state to another valid state.
+
+
+I: isolation :Multiple transactions happening at the same time do not affect each other’s correctness
+
+
+
+
+D: duralbity :Once a transaction is committed, it will remain saved even if the system crashes.
+
+
+it also have two parts commit and rollback
 
 
